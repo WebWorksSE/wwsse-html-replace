@@ -1,0 +1,25 @@
+{
+    "name": "webworksse/wwse-html-replace",
+    "description": "WwsseHtmlReplace is very simple ZF2 module for modifying response html (after processing by ZF2) using htmlpagedom similar to jQuery.",
+    "type": "library",
+    "keywords": [
+        "zf2"
+    ],
+    "homepage": "https://github.com/WebWorksSE/wwsse-html-replace",
+    "authors": [
+        {
+            "name": "Emil Grabowiec",
+            "email": "biuro@webworks.com.pl",
+            "homepage": "http://webworks.com.pl/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "wa72/htmlpagedom": "^1.3"
+    },
+    "autoload": {
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}
