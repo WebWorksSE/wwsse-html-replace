@@ -19,11 +19,20 @@ class Module
 			    $class      = $cfg['controllers']['invokables'][$controller];
 			    $crowlerCfg = $cfg['wwsse_html_replace'];
 
+			    /* controller/action specific html modification */
 			    if(array_key_exists($class, $crowlerCfg) && array_key_exists($action, $crowlerCfg[$class])) {
-				    $content = $e->getResponse()->getContent();
-				    $crowler = HtmlPageCrawler::create($content);
+				    $content    = $e->getResponse()->getContent();
+				    $crowler    = HtmlPageCrawler::create($content);
 
 				    $e->getResponse()->setContent($crowlerCfg[$class][$action]($crowler));
+			    }
+
+			    /* global specific html modification */
+			    if(array_key_exists('global', $crowlerCfg)) {
+				    $content    = $e->getResponse()->getContent();
+				    $crowler    = HtmlPageCrawler::create($content);
+
+				    $e->getResponse()->setContent($crowlerCfg['global']($crowler));
 			    }
 		    }
 	    });
