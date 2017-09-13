@@ -1,6 +1,7 @@
 <?php
 namespace WwseHtmlReplace;
 
+use Wa72\HtmlPageDom\HtmlPageCrawler;
 use Zend\Mvc\MvcEvent;
 
 class Module
