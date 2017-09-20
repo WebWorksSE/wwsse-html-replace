@@ -14,25 +14,29 @@ class Module
 		    $cfg = $e->getApplication()->getServiceManager()->get('config');
 
 	    	if(array_key_exists('wwsse_html_replace', $cfg)) {
-			    $controller = $e->getRouteMatch()->getParam('controller');
-			    $action     = $e->getRouteMatch()->getParam('action');
-			    $class      = $cfg['controllers']['invokables'][$controller];
-			    $crowlerCfg = $cfg['wwsse_html_replace'];
+			    $route = $e->getRouteMatch();
 
-			    /* controller/action specific html modification */
-			    if(array_key_exists($class, $crowlerCfg) && array_key_exists($action, $crowlerCfg[$class])) {
-				    $content    = $e->getResponse()->getContent();
-				    $crowler    = HtmlPageCrawler::create($content);
+			    if(!is_null($route)) {
+				    $controller = $route->getParam('controller');
+				    $action     = $route->getParam('action');
+				    $class      = $cfg['controllers']['invokables'][$controller];
+				    $crowlerCfg = $cfg['wwsse_html_replace'];
 
-				    $e->getResponse()->setContent($crowlerCfg[$class][$action]($crowler));
-			    }
+				    /* controller/action specific html modification */
+				    if(array_key_exists($class, $crowlerCfg) && array_key_exists($action, $crowlerCfg[$class])) {
+					    $content    = $e->getResponse()->getContent();
+					    $crowler    = HtmlPageCrawler::create($content);
 
-			    /* global specific html modification */
-			    if(array_key_exists('global', $crowlerCfg)) {
-				    $content    = $e->getResponse()->getContent();
-				    $crowler    = HtmlPageCrawler::create($content);
+					    $e->getResponse()->setContent($crowlerCfg[$class][$action]($crowler));
+				    }
 
-				    $e->getResponse()->setContent($crowlerCfg['global']($crowler));
+				    /* global specific html modification */
+				    if(array_key_exists('global', $crowlerCfg)) {
+					    $content    = $e->getResponse()->getContent();
+					    $crowler    = HtmlPageCrawler::create($content);
+
+					    $e->getResponse()->setContent($crowlerCfg['global']($crowler));
+				    }
 			    }
 		    }
 	    });
